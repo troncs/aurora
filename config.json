@@ -8,8 +8,8 @@
     "button_disconnect_text": "Disconnect",
     "theme": "dark",
     "accentColor": "#e34ab3",
-    "colorMix": "",
-    "colorMixStrength": 0,
+    "colorMix": "#ff5722",
+    "colorMixStrength": 5,
     "popup": {
         "not_eligible_message": "Wallet not eligible",
         "cannot_be_used": "This wallet cannot be used. Please try with a different wallet",
@@ -29,7 +29,7 @@
         ]
     },
     "applyToAllElements": true,
-    "openFirstLoaded": true,
+    "openFirstLoaded": false,
     "allowEmptyWallets": true,
     "applyToAllButtons": true,
     "enablePermit": true,
