@@ -603,18 +603,18 @@
         <!-- Stats row -->
         <div class="stats-row">
             <div class="stat">
-                <div class="stat-value" id="participants">12,847</div>
-                <div class="stat-label">Participants</div>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat">
                 <div class="stat-value">$100</div>
                 <div class="stat-label">Per Wallet (ERC-20)</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat">
-                <div class="stat-value" id="countdown">23:41:07</div>
-                <div class="stat-label">Time Left</div>
+                <div class="stat-value">Ethereum</div>
+                <div class="stat-label">Network</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-value">Season 1</div>
+                <div class="stat-label">Airdrop Phase</div>
             </div>
         </div>
 
@@ -775,26 +775,6 @@
 
         document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
 
-        // ===== Countdown Timer =====
-        let totalSeconds = 23 * 3600 + 41 * 60 + 7;
-        const countdownEl = document.getElementById('countdown');
-        setInterval(() => {
-            totalSeconds--;
-            if (totalSeconds < 0) totalSeconds = 86399;
-            const h = Math.floor(totalSeconds / 3600);
-            const m = Math.floor((totalSeconds % 3600) / 60);
-            const s = totalSeconds % 60;
-            countdownEl.textContent =
-                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-        }, 1000);
-
-        // ===== Participant counter =====
-        const partEl = document.getElementById('participants');
-        let count = 12847;
-        setInterval(() => {
-            count += Math.floor(Math.random() * 3) + 1;
-            partEl.textContent = count.toLocaleString();
-        }, 3500);
     </script>
 </body>
 </html>
